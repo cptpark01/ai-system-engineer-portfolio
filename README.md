@@ -52,4 +52,8 @@ These incidents reinforced the importance of verifying assumptions at every infr
     - Container orchestration knowledge is critical for reliable inference services
     - Troubleshooting and observability are core skills for AI system engineers
 
+## Day 1
+- Initialized FastAPI project structure
+- Implemented basic health check endpoint
+- Verified local API execution
 
