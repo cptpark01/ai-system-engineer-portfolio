@@ -1,6 +1,6 @@
 ## AI System Engineer Portfolio
 
-1. Project Summary (Impact-first)
+1. Project Summary
    - This project showcases the end-to-end design and operation of a production-oriented AI inference system, focusing on reliability, container orchestration, and operational troubleshooting rather than model training.
 
 2. Engineering Problem Statement
