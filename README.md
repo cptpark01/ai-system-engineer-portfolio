@@ -1,6 +1,6 @@
 ## AI System Engineer Portfolio
 
-1. Project Summary (Impact-first)
+1. Project Summary
    - This project showcases the end-to-end design and operation of a production-oriented AI inference system, focusing on reliability, container orchestration, and operational troubleshooting rather than model training.
 
 2. Engineering Problem Statement
@@ -52,6 +52,10 @@ These incidents reinforced the importance of verifying assumptions at every infr
     - Container orchestration knowledge is critical for reliable inference services
     - Troubleshooting and observability are core skills for AI system engineers
 
+## Day 1
+- Initialized FastAPI project structure
+- Implemented basic health check endpoint
+- Verified local API execution
 
 ## Day 1
 - Initialized FastAPI project structure
