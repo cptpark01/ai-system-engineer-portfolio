@@ -14,7 +14,7 @@ Verifying cluster readiness
 OS: Ubuntu 22.04 LTS
 CPU: 8 cores
 RAM: 128GB
-Disk: 100GB
+Disk: 2TB
 Network: Bridged network
 
 # 3. Architecture Overview
@@ -32,31 +32,31 @@ The control plane maintains the desired cluster state, while kubelet ensures act
 
 # 4. Key Concepts Learned 
 4.1 Linux Namespaces
-- 컨테이너 격리의 핵심 기술
+- Core Technologies of Container Isolation
 
 4.2 cgroups
-- CPU 및 메모리 자원 제한 메커니즘
+- CPU and Memory Resource Limitation Mechanisms
 
 4.3 Container Runtime
-- Kubernetes는 containerd를 통해 컨테이너 실행
+- Kubernetes runs containers through containerd.
 
 4.4 kubeadm
-- 클러스터 부트스트랩 도구
-- 인증서 생성, etcd 실행, API 서버 기동 수행
+- Cluster Bootstrap Tool
+- Performs certificate generation, etcd initialization, and API server startup
 
 4.5 CNI
-- Pod 네트워크 구성 필수 요소
-- CNI 미설치 시 Node 상태: NotReady
+- Essential Components for Pod Network Configuration
+- If CNI is not installed, the Node status will show: NotReady
 
 
 # 5. Installation Steps Summary 
-- Swap 비활성화
-- containerd 설치
-- Kubernetes 패키지 설치
-- kubeadm init 실행
-- CNI(Flannel) 설치
-- Taint 제거
-- 테스트 Pod 배포
+- Disable swap
+- Install containerd
+- Install Kubernetes packages
+- Run kubeadm init
+- Install CNI (Flannel)
+- Remove taints
+- Deploy test Pods
 
 
 # 6. Verification
