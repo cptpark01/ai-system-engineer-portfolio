@@ -1,8 +1,8 @@
-### Project 1 – Day 1
-### On-Prem Kubernetes Cluster Initialization (Single Node)
+# Project 1 – Day 1
+# On-Prem Kubernetes Cluster Initialization (Single Node)
 
 
-# 1. Project Objective 
+## 1. Project Objective 
 The objective of Day 1 is to bootstrap a single-node Kubernetes cluster on an on-premise Ubuntu server using kubeadm, and to understand the internal architecture of Kubernetes rather than simply completing an installation.
 This phase focuses on:
 Linux container fundamentals
@@ -11,14 +11,14 @@ Kubernetes control-plane initialization
 CNI networking configuration
 Verifying cluster readiness
 
-# 2. Environment Specification
+## 2. Environment Specification
 OS: Ubuntu 22.04 LTS
 CPU: 8 cores
 RAM: 128GB
 Disk: 2TB
 Network: Bridged network
 
-# 3. Architecture Overview
+## 3. Architecture Overview
 Kubernetes architecture is divided into:
 Control Plane
 - kube-apiserver
