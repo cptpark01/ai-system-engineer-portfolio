@@ -298,3 +298,157 @@ Kubernetes treats GPU as an Extended Resource.
 - Scheduler decisions are based on resource availability and constraints.
 - nodeSelector provides simple placement control.
 - Taints and tolerations enforce node-level scheduling policies.
+
+## Project 1 – Day 3
+## GPU FastAPI Model Server (On-Prem)
+# 1. Objective
+
+The goal of Day 3 is to build a GPU-enabled AI inference server using FastAPI, package it into a Docker container, and verify GPU-based inference.
+
+Key objectives:
+
+ - Build a FastAPI server for model inference
+ - Implement GPU-compatible PyTorch code
+ - Create a Dockerfile for GPU containerization
+ - Test inference on a GPU-enabled container
+
+# 2. Project Structure
+```
+project-01-gpu-ai-infra/
+└── model-server/
+    ├── app.py
+    ├── model.py
+    ├── requirements.txt
+    └── Dockerfile
+```
+
+# 3. Python Environment
+
+Dependencies:
+
+ - fastapi → Web API framework
+ - uvicorn → ASGI server for FastAPI
+ - torch → PyTorch for GPU computation
+ - numpy → Array manipulation
+
+requirements.txt:
+```
+fastapi
+uvicorn
+torch
+numpy
+```
+
+# 4. Model Implementation (model.py)
+```
+import torch
+import torch.nn as nn
+
+class SimpleModel(nn.Module):
+    def __init__(self):
+        super(SimpleModel, self).__init__()
+        self.linear = nn.Linear(10, 1)
+
+    def forward(self, x):
+        return self.linear(x)
+
+# Use GPU if available
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = SimpleModel().to(device)
+model.eval()
+
+def predict(input_data):
+    with torch.no_grad():
+        tensor = torch.tensor(input_data, dtype=torch.float32).to(device)
+        output = model(tensor)
+        return output.cpu().numpy().tolist()
+
+print("Using device:", device)
+```
+
+Key points:
+ - .to(device) moves the model to GPU memory
+ - torch.no_grad() disables gradient tracking for inference
+ - predict function handles GPU tensor conversion and output
+
+# 5. FastAPI Server (app.py)
+```
+from fastapi import FastAPI
+from model import predict
+import torch
+
+app = FastAPI()
+
+@app.get("/")
+def health_check():
+    return {
+        "status": "running",
+        "gpu_available": torch.cuda.is_available()
+    }
+
+@app.post("/predict")
+def run_inference(data: list):
+    result = predict(data)
+    return {"prediction": result}
+```
+
+Endpoints:
+
+ - GET / → Health check + GPU availability
+ - POST /predict → Accepts JSON list input and returns prediction
+
+# 6. Dockerfile
+```
+# CUDA base image for GPU support
+FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
+
+WORKDIR /app
+
+# Install Python
+RUN apt update && apt install -y python3 python3-pip
+
+# Copy requirements and install
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Expose API port
+EXPOSE 8000
+
+# Start server
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+Notes:
+
+ - Use --gpus all when running container
+ - CUDA runtime base image is required for GPU access
+
+# 7. Build and Run Docker Image
+```
+# Build image
+docker build -t gpu-model-server .
+
+# Run container with GPU
+docker run --gpus all -p 8000:8000 gpu-model-server
+```
+
+ - Access API docs: http://localhost:8000/docs
+ - GPU logs confirm CUDA usage
+
+# 8. Validation Checklist
+
+ - FastAPI server runs successfully
+ - /docs endpoint accessible
+ - torch.cuda.is_available() → True
+ - Docker image builds without errors
+ - GPU inference works inside container
+
+# 9. Lessons Learned
+
+ - GPU access inside containers requires NVIDIA runtime
+ - FastAPI + PyTorch combination allows rapid deployment
+ - Dockerfile must use CUDA base image for GPU
+ - Model code should handle CPU fallback automatically
