@@ -1,5 +1,6 @@
-## Project 1 – Day 1
-## On-Prem Kubernetes Cluster Initialization (Single Node)
+### Project 1 – Day 1
+### On-Prem Kubernetes Cluster Initialization (Single Node)
+
 
 # 1. Project Objective 
 The objective of Day 1 is to bootstrap a single-node Kubernetes cluster on an on-premise Ubuntu server using kubeadm, and to understand the internal architecture of Kubernetes rather than simply completing an installation.
@@ -97,8 +98,12 @@ This confirms Kubernetes is a declarative, state-driven orchestration system.
 - CNI is mandatory for Pod networking.
 - kubeadm simplifies but does not abstract internal components.
 
-## Project 1 – Day 2
-## GPU Enablement and Scheduling in Kubernetes (On-Prem)
+
+
+### Project 1 – Day 2
+### GPU Enablement and Scheduling in Kubernetes (On-Prem)
+
+
 # 1. Objective
 
 The objective of Day 2 is to validate GPU integration with Kubernetes and to control workload placement using scheduling constraints.
@@ -299,8 +304,11 @@ Kubernetes treats GPU as an Extended Resource.
 - nodeSelector provides simple placement control.
 - Taints and tolerations enforce node-level scheduling policies.
 
-## Project 1 – Day 3
-## GPU FastAPI Model Server (On-Prem)
+
+### Project 1 – Day 3
+### GPU FastAPI Model Server (On-Prem)
+
+
 # 1. Objective
 
 The goal of Day 3 is to build a GPU-enabled AI inference server using FastAPI, package it into a Docker container, and verify GPU-based inference.
