@@ -68,22 +68,22 @@ It simulates a real enterprise internal AI inference server.
 ### 2. NVIDIA GPU Runtime Setup
 - Installed NVIDIA Driver
 - Verified GPU status with `nvidia-smi`
-![nvidia-smi](./screenshots/01-nvidia-smi.png)
+![nvidia-smi](./project1-gpu-infra/screenshots/01-nvidia-smi.png)
 
 ### 3. Docker Environment Setup
 - Installed Docker Engine
 - Configured Docker service auto-start
-![docker run](./screenshots/02-docker run.png)
+![docker run](./project1-gpu-infra/screenshots/02-docker run.png)
 
 ### 4. GPU Container Runtime
 - Installed NVIDIA Container Toolkit
 - Enabled GPU access inside containers
-![docker ps](./screenshots/03-docker ps.png)
+![docker ps](./project1-gpu-infra/screenshots/03-docker ps.png)
 
 ### 5. AI API Deployment
 - Built FastAPI container
 - Implemented API endpoints:
-![health response](./screenshots/04-health response.png)
+![health response](./project1-gpu-infra/screenshots/04-health response.png)
 
 ```text id="6d0k6d"
 /health
