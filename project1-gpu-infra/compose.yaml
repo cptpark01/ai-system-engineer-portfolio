@@ -6,6 +6,11 @@ services:
     container_name: ai-api
     ports:
       - "8000:8000"
+    environment:
+      - TRANSFORMERS_CACHE=/models/cache
+      - HF_HOME=/models/cache
+    volumes:
+      - ./models:/models
     deploy:
       resources:
         reservations:

@@ -88,4 +88,88 @@ It simulates a real enterprise internal AI inference server.
 ```text id="6d0k6d"
 /health
 /gpu
-/
+/predict
+/docs
+
+GPU API Response
+
+The API successfully detects the GPU inside the Docker container.
+'''JSON
+{
+  "cuda_available": true,
+  "device_count": 1,
+  "device_name": "NVIDIA GeForce RTX 5070 Ti",
+  "torch_device": "cuda"
+}
+'''
+
+Real Model Inference API
+
+Implemented a real AI inference API using FastAPI + Hugging Face Transformers.
+
+Features
+    Sentiment Analysis API
+    Hugging Face pre-trained model loading
+    JSON response output
+    Swagger UI support
+Example Request
+
+'''bash
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"text":"I really like this project."}'
+  '''
+
+ Example Response (CPU fallback mode)
+
+ '''JSON
+{
+  "label": "POSITIVE",
+  "score": 0.999,
+  "model_name": "distilbert-base-uncased-finetuned-sst-2-english",
+  "device": "cpu"
+}
+'''
+
+Troubleshooting
+Issue 1: Transformers / PyTorch Version Conflict
+
+When using an older PyTorch image:
+'''
+Disabling PyTorch because PyTorch >= 2.4 is required but found 2.3.1
+'''
+
+Solution
+
+Updated Docker base image:
+'''dockerfile
+FROM pytorch/pytorch:2.6.0-cuda12.6-cudnn9-runtime
+'''
+
+Issue 2: CUDA Kernel Compatibility Error
+
+During GPU inference testing:
+'''
+RuntimeError: CUDA error: no kernel image is available for execution on the device
+'''
+
+This indicates that the RTX 5070 Ti architecture is newer than the CUDA kernels included in the current runtime image.
+
+Temporary Resolution
+    Verified GPU detection through /gpu
+    Switched inference pipeline to CPU fallback mode
+    Kept infrastructure validation as completed
+
+API Health Check
+![project1-2-1](project1-gpu-infra/screenshots/05-Project1-2-1_inference_api.png)
+
+Result
+![project1-2-2](project1-gpu-infra/screenshots/06-Project1-2-2_inference_api.png)
+
+Key Learnings
+    Linux server setup for AI infrastructure
+    Docker-based AI service deployment
+    GPU runtime configuration
+    Hugging Face model serving
+    Troubleshooting GPU compatibility issues
+    CPU fallback design for production resilience
