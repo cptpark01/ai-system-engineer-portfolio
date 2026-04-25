@@ -4,3 +4,4 @@ transformers
 accelerate
 sentencepiece
 safetensors
+pydantic-settings

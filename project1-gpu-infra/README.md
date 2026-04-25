@@ -158,3 +158,37 @@ This indicates that the RTX 5070 Ti architecture is newer than the CUDA kernels 
   * Hugging Face model serving
   * Troubleshooting GPU compatibility issues
   * CPU fallback design for production resilience
+
+## Step 3 - Production-Style API Refactoring
+
+The inference API was refactored to support more production-oriented features.
+
+### Added Features
+
+- Single prediction endpoint: `/predict`
+- Batch prediction endpoint: `/predict/batch`
+- Request logging middleware
+- Global error handling
+- Environment-variable based model configuration
+- CPU fallback mode for runtime stability
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | Health check |
+| GET | `/gpu` | GPU runtime status |
+| POST | `/predict` | Single text inference |
+| POST | `/predict/batch` | Batch text inference |
+| GET | `/docs` | Swagger UI |
+
+### Runtime Configuration
+
+The model can be changed without modifying source code.
+
+```yaml
+environment:
+  - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
+  - APP_INFERENCE_DEVICE=cpu
+  - APP_MAX_BATCH_SIZE=16
+  
