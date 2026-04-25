@@ -9,11 +9,15 @@ services:
     environment:
       - HF_HOME=/models/cache
       - TRANSFORMERS_CACHE=/models/cache
+
+      # Application settings
       - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
       - APP_INFERENCE_DEVICE=cpu
       - APP_MAX_BATCH_SIZE=16
+
     volumes:
       - ./models:/models
+
     deploy:
       resources:
         reservations:
@@ -21,4 +25,5 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
     restart: unless-stopped

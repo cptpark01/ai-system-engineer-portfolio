@@ -191,11 +191,51 @@ environment:
   - APP_MAX_BATCH_SIZE=16
 '''
 
+### Single Prediction Response
+'''JSON
+{
+  "result": {
+    "text": "I really like this project.",
+    "label": "POSITIVE",
+    "score": 0.999
+  },
+  "model_name": "distilbert-base-uncased-finetuned-sst-2-english",
+  "device": "cpu"
+}
+'''
+
+
 ### Batch Prediction Example
 '''Bash
 curl -X POST http://localhost:8000/predict/batch \
   -H "Content-Type: application/json" \
   -d '{"texts":["I really like this project.","This system is disappointing.","The API works well."]}'
+'''
+
+### Batch Prediction Response
+'''JSON
+{
+  "results": [
+    {
+      "text": "I really like this project.",
+      "label": "POSITIVE",
+      "score": 0.999
+    },
+    {
+      "text": "This system is disappointing.",
+      "label": "NEGATIVE",
+      "score": 0.998
+    },
+    {
+      "text": "The API works well.",
+      "label": "POSITIVE",
+      "score": 0.999
+    }
+  ],
+  "model_name": "distilbert-base-uncased-finetuned-sst-2-english",
+  "device": "cpu",
+  "batch_size": 3
+}
 '''
 
 ### Operational Improvement
@@ -208,9 +248,25 @@ schemas.py         - Request and response schemas
 logging_config.py  - Logging setup
 '''
 
+### Runtime Configuration
+The model can be switched without modifying source code.
+'''YAML
+environment:
+  - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
+  - APP_INFERENCE_DEVICE=cpu
+  - APP_MAX_BATCH_SIZE=16
+  '''
+
 Screenshot Evidence
 ![project1-3-1](./screenshots/07-Project1-3-1.png)
 ![project1-3-2](./screenshots/08-Project1-3-2_single_inference.png)
 ![project1-3-3](./screenshots/09-Project1-3-3_batch_inference.png)
 ![project1-3-4](./screenshots/10-Project1-3-4_docker_logs.png)
+![project1-4-1](./screenshots/11-Project1-4-1.png)
+![project1-4-2](./screenshots/12-Project1-4-2_single_inference.png)
+![project1-4-3](./screenshots/13-Project1-4-3_batch_inference.png)
+![project1-4-4](./screenshots/14-Project1-4-4_docker_logs.png)
+
+
+ 
   

@@ -39,3 +39,8 @@ class GPUResponse(BaseModel):
     device_name: str | None
     torch_device: str
     inference_device: str
+
+
+class ErrorResponse(BaseModel):
+    error: str
+    detail: str
