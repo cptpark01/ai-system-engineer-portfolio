@@ -184,7 +184,7 @@ The inference API was refactored to support more production-oriented features.
 
 ### Runtime Configuration
 The model can be changed without modifying source code.
-```yaml
+'''yaml
 environment:
   - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
   - APP_INFERENCE_DEVICE=cpu
