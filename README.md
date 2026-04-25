@@ -90,7 +90,7 @@ It simulates a real enterprise internal AI inference server.
 /predict
 /docs
 
-GPU API Response
+### GPU API Response
 
 The API successfully detects the GPU inside the Docker container.
 '''JSON
@@ -102,16 +102,17 @@ The API successfully detects the GPU inside the Docker container.
 }
 '''
 
-Real Model Inference API
+### Real Model Inference API
 
 Implemented a real AI inference API using FastAPI + Hugging Face Transformers.
 
-Features
-    Sentiment Analysis API
-    Hugging Face pre-trained model loading
-    JSON response output
-    Swagger UI support
-Example Request
+### Features
+* Sentiment Analysis API
+* Hugging Face pre-trained model loading
+* JSON response output
+* Swagger UI support
+
+### Example Request
 
 '''bash
 curl -X POST http://localhost:8000/predict \
@@ -119,7 +120,7 @@ curl -X POST http://localhost:8000/predict \
   -d '{"text":"I really like this project."}'
   '''
 
- Example Response (CPU fallback mode)
+ ### Example Response (CPU fallback mode)
 
  '''JSON
 {
@@ -130,22 +131,22 @@ curl -X POST http://localhost:8000/predict \
 }
 '''
 
-Troubleshooting
-Issue 1: Transformers / PyTorch Version Conflict
+## Troubleshooting
+### Issue 1: Transformers / PyTorch Version Conflict
 
 When using an older PyTorch image:
 '''
 Disabling PyTorch because PyTorch >= 2.4 is required but found 2.3.1
 '''
 
-Solution
+### Solution
 
 Updated Docker base image:
 '''dockerfile
 FROM pytorch/pytorch:2.6.0-cuda12.6-cudnn9-runtime
 '''
 
-Issue 2: CUDA Kernel Compatibility Error
+### Issue 2: CUDA Kernel Compatibility Error
 
 During GPU inference testing:
 '''
@@ -154,21 +155,21 @@ RuntimeError: CUDA error: no kernel image is available for execution on the devi
 
 This indicates that the RTX 5070 Ti architecture is newer than the CUDA kernels included in the current runtime image.
 
-Temporary Resolution
+### Temporary Resolution
     Verified GPU detection through /gpu
     Switched inference pipeline to CPU fallback mode
     Kept infrastructure validation as completed
 
-API Health Check
+### API Health Check
 ![project1-2-1](project1-gpu-infra/screenshots/05-Project1-2-1_inference_api.png)
 
-Result
+### Result
 ![project1-2-2](project1-gpu-infra/screenshots/06-Project1-2-2_inference_api.png)
 
-Key Learnings
-    Linux server setup for AI infrastructure
-    Docker-based AI service deployment
-    GPU runtime configuration
-    Hugging Face model serving
-    Troubleshooting GPU compatibility issues
-    CPU fallback design for production resilience
+## Key Learnings
+  * Linux server setup for AI infrastructure
+  * Docker-based AI service deployment
+  * GPU runtime configuration
+  * Hugging Face model serving
+  * Troubleshooting GPU compatibility issues
+  * CPU fallback design for production resilience
