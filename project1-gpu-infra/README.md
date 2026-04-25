@@ -191,4 +191,24 @@ environment:
   - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
   - APP_INFERENCE_DEVICE=cpu
   - APP_MAX_BATCH_SIZE=16
+
+### Batch Prediction Example
+'''Bash
+curl -X POST http://localhost:8000/predict/batch \
+  -H "Content-Type: application/json" \
+  -d '{"texts":["I really like this project.","This system is disappointing.","The API works well."]}'
+'''
+
+### Operational Improvement
+The application now separates responsibilities into multiple modules:
+'''
+main.py            - API routes and middleware
+model_service.py   - Model loading and inference logic
+config.py          - Environment-based settings
+schemas.py         - Request and response schemas
+logging_config.py  - Logging setup
+'''
+
+Screenshot Evidence
+
   
