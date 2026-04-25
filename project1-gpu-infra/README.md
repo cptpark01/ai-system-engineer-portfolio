@@ -183,7 +183,6 @@ The inference API was refactored to support more production-oriented features.
 | GET | `/docs` | Swagger UI |
 
 ### Runtime Configuration
-
 The model can be changed without modifying source code.
 ```yaml
 environment:
@@ -210,5 +209,8 @@ logging_config.py  - Logging setup
 '''
 
 Screenshot Evidence
-
+![project1-3-1](screenshots/07-Project1-3-1.png)
+![project1-3-2](screenshots/08-Project1-3-2_single_inference.png)
+![project1-3-3](screenshots/09-Project1-3-3_batch_inference.png)
+![project1-3-4](screenshots/10-Project1-3-4_docker_logs.png)
   
