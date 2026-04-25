@@ -191,6 +191,7 @@ environment:
   - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
   - APP_INFERENCE_DEVICE=cpu
   - APP_MAX_BATCH_SIZE=16
+'''
 
 ### Batch Prediction Example
 '''Bash
