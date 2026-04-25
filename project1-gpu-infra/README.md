@@ -53,22 +53,22 @@ It simulates a real enterprise internal AI inference server.
 ### 2. NVIDIA GPU Runtime Setup
 - Installed NVIDIA Driver
 - Verified GPU status with `nvidia-smi`
-![nvidia-smi](./project1-gpu-infra/screenshots/01-nvidia-smi.png)
+![nvidia-smi](./screenshots/01-nvidia-smi.png)
 
 ### 3. Docker Environment Setup
 - Installed Docker Engine
 - Configured Docker service auto-start
-![docker run](./project1-gpu-infra/screenshots/02-docker_run.png)
+![docker run](./screenshots/02-docker_run.png)
 
 ### 4. GPU Container Runtime
 - Installed NVIDIA Container Toolkit
 - Enabled GPU access inside containers
-![docker ps](./project1-gpu-infra/screenshots/03-docker_ps.png)
+![docker ps](./screenshots/03-docker_ps.png)
 
 ### 5. AI API Deployment
 - Built FastAPI container
 - Implemented API endpoints:
-![health response](./project1-gpu-infra/screenshots/04-health_response.png)
+![health response](./screenshots/04-health_response.png)
 
 /health
 /gpu
@@ -146,10 +146,10 @@ This indicates that the RTX 5070 Ti architecture is newer than the CUDA kernels 
     Kept infrastructure validation as completed
 
 ### API Health Check
-![project1-2-1](project1-gpu-infra/screenshots/05-Project1-2-1_inference_api.png)
+![project1-2-1](./screenshots/05-Project1-2-1_inference_api.png)
 
 ### Result
-![project1-2-2](project1-gpu-infra/screenshots/06-Project1-2-2_inference_api.png)
+![project1-2-2](./screenshots/06-Project1-2-2_inference_api.png)
 
 ## Key Learnings
   * Linux server setup for AI infrastructure
@@ -209,8 +209,8 @@ logging_config.py  - Logging setup
 '''
 
 Screenshot Evidence
-![project1-3-1](./project1-gpu-infra/screenshots/07-Project1-3-1.png)
-![project1-3-2](./project1-gpu-infra/screenshots/08-Project1-3-2_single_inference.png)
-![project1-3-3](./project1-gpu-infra/screenshots/09-Project1-3-3_batch_inference.png)
-![project1-3-4](./project1-gpu-infra/screenshots/10-Project1-3-4_docker_logs.png)
+![project1-3-1](./screenshots/07-Project1-3-1.png)
+![project1-3-2](./screenshots/08-Project1-3-2_single_inference.png)
+![project1-3-3](./screenshots/09-Project1-3-3_batch_inference.png)
+![project1-3-4](./screenshots/10-Project1-3-4_docker_logs.png)
   
