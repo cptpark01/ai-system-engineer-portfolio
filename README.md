@@ -85,7 +85,6 @@ It simulates a real enterprise internal AI inference server.
 - Implemented API endpoints:
 ![health response](./project1-gpu-infra/screenshots/04-health_response.png)
 
-```text id="6d0k6d"
 /health
 /gpu
 /predict
