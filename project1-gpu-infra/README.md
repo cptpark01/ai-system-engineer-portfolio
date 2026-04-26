@@ -297,5 +297,31 @@ curl http://localhost/health
 
 ### Screenshots
 ![project1-5-1](./screenshots/15-Project1-4-1_health_predict.png)
- 
+
+## Step 5 - HTTPS / SSL / Domain Setup
+
+The API service was secured using HTTPS with SSL termination at Nginx.
+
+### Architecture
+
+```text
+Client
+ ↓ HTTPS
+Nginx SSL Termination
+ ↓ HTTP
+FastAPI
+```
+
+### Features
+  - HTTPS enabled
+  - SSL certificate installed
+  - Domain routing configured
+  - HTTP to HTTPS redirect
+
+### Example
+``` Bash
+curl https://cptpark01.github.io/health
+```
+
+
   
