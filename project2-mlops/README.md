@@ -91,7 +91,7 @@ Tracks
 
 ### Screenshots
 ![Project-2-1-1](./screenshots/01-Project2-1-1_mlflow_ui.png)
-![Project-2-1-2](./screenshots/01-Project2-1-2_Minio_console.png)
+![Project-2-1-2](./screenshots/02-Project2-1-2_Minio_console.png)
 
 ## Step 2 - Model Training & Experiment Tracking
 Trained a machine learning model and logged the experiment to MLflow.
