@@ -298,9 +298,13 @@ curl http://localhost/health
 ### Screenshots
 ![project1-5-1](./screenshots/15-Project1-4-1_health_predict.png)
 
-## Step 5 - HTTPS / SSL / Domain Setup
+## Step 5 - Portfolio Website
 
 The API service was secured using HTTPS with SSL termination at Nginx.
+
+GitHub Pages: https://cptpark01.github.io/ai-system-engineer-portfolio/
+
+This page provides a high-level overview of the AI System Engineer Portfolio.
 
 ### Architecture
 
