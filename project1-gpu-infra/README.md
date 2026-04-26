@@ -279,6 +279,7 @@ Client
 Nginx (Port 80)
 ↓
 FastAPI (Port 8000)
+'''
 
 ### Features
   - Hide internal application port
