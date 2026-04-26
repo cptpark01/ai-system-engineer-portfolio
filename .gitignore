@@ -12,3 +12,8 @@ project1-gpu-infra/models/cache/
 *.pth
 *.bin
 *.safetensors
+
+# MinIO runtime data
+project2-mlops/minio/.minio.sys/
+project2-mlops/minio/data/
+**/.minio.sys/
