@@ -4,6 +4,7 @@ import time
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 import torch
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from config import settings
 from logging_config import setup_logging
@@ -25,6 +26,8 @@ app = FastAPI(
     description="Production-style AI inference API with batch prediction, logging, error handling, and configurable model loading.",
     version="1.1.0",
 )
+
+Instrumentator().instrument(app).expose(app)
 
 model_service = ModelService()
 

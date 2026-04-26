@@ -327,5 +327,16 @@ FastAPI
 curl https://cptpark01.github.io/health
 ```
 
+## Monitoring Dashboard
+
+Implemented real-time monitoring dashboard using Grafana.
+
+### Panels
+
+- Request Count
+- Response Time
+- Error Count
+
+![grafana](./screenshots/18-Project1-6-1_Monitoring_Dashboard.png)
 
   
