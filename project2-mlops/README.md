@@ -159,7 +159,7 @@ Cause:
 setuptools missing or broken in Python venv.
 
 Solution:
-``` Bash
+```Bash
 pip install "setuptools<81" wheel
 ```
 
