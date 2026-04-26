@@ -78,14 +78,14 @@ It simulates a real enterprise internal AI inference server.
 ### GPU API Response
 
 The API successfully detects the GPU inside the Docker container.
-'''JSON
+```JSON 
 {
   "cuda_available": true,
   "device_count": 1,
   "device_name": "NVIDIA GeForce RTX 5070 Ti",
   "torch_device": "cuda"
 }
-'''
+```
 
 ### Real Model Inference API
 
@@ -99,44 +99,44 @@ Implemented a real AI inference API using FastAPI + Hugging Face Transformers.
 
 ### Example Request
 
-'''bash
+```bash
 curl -X POST http://localhost:8000/predict \
   -H "Content-Type: application/json" \
   -d '{"text":"I really like this project."}'
-  '''
+  ```
 
  ### Example Response (CPU fallback mode)
 
- '''JSON
+ ```JSON
 {
   "label": "POSITIVE",
   "score": 0.999,
   "model_name": "distilbert-base-uncased-finetuned-sst-2-english",
   "device": "cpu"
 }
-'''
+```
 
 ## Troubleshooting
 ### Issue 1: Transformers / PyTorch Version Conflict
 
 When using an older PyTorch image:
-'''
+```
 Disabling PyTorch because PyTorch >= 2.4 is required but found 2.3.1
-'''
+```
 
 ### Solution
 
 Updated Docker base image:
-'''dockerfile
+```dockerfile
 FROM pytorch/pytorch:2.6.0-cuda12.6-cudnn9-runtime
-'''
+```
 
 ### Issue 2: CUDA Kernel Compatibility Error
 
 During GPU inference testing:
-'''
+```
 RuntimeError: CUDA error: no kernel image is available for execution on the device
-'''
+```
 
 This indicates that the RTX 5070 Ti architecture is newer than the CUDA kernels included in the current runtime image.
 
@@ -184,15 +184,15 @@ The inference API was refactored to support more production-oriented features.
 
 ### Runtime Configuration
 The model can be changed without modifying source code.
-'''yaml
+```yaml
 environment:
   - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
   - APP_INFERENCE_DEVICE=cpu
   - APP_MAX_BATCH_SIZE=16
-'''
+```
 
 ### Single Prediction Response
-'''JSON
+```JSON
 {
   "result": {
     "text": "I really like this project.",
@@ -202,18 +202,18 @@ environment:
   "model_name": "distilbert-base-uncased-finetuned-sst-2-english",
   "device": "cpu"
 }
-'''
+```
 
 
 ### Batch Prediction Example
-'''Bash
+```Bash
 curl -X POST http://localhost:8000/predict/batch \
   -H "Content-Type: application/json" \
   -d '{"texts":["I really like this project.","This system is disappointing.","The API works well."]}'
-'''
+```
 
 ### Batch Prediction Response
-'''JSON
+```JSON
 {
   "results": [
     {
@@ -236,26 +236,26 @@ curl -X POST http://localhost:8000/predict/batch \
   "device": "cpu",
   "batch_size": 3
 }
-'''
+```
 
 ### Operational Improvement
 The application now separates responsibilities into multiple modules:
-'''
+```
 main.py            - API routes and middleware
 model_service.py   - Model loading and inference logic
 config.py          - Environment-based settings
 schemas.py         - Request and response schemas
 logging_config.py  - Logging setup
-'''
+```
 
 ### Runtime Configuration
 The model can be switched without modifying source code.
-'''YAML
+```YAML
 environment:
   - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
   - APP_INFERENCE_DEVICE=cpu
   - APP_MAX_BATCH_SIZE=16
-  '''
+  ```
 
 Screenshot Evidence
 ![project1-3-1](./screenshots/07-Project1-3-1.png)
@@ -273,7 +273,7 @@ The API service was exposed through Nginx reverse proxy.
 
 ### Architecture
 
-'''text
+```text
 
 Client
 ↓
@@ -281,7 +281,7 @@ Nginx (Port 80)
 ↓
 FastAPI (Port 8000)
 
-'''
+```
 
 ### Features
   - Hide internal application port
@@ -289,11 +289,11 @@ FastAPI (Port 8000)
   - Production-style service exposure
 
 ### Example
-'''Bash
+```Bash
 
 curl http://localhost/health
 
-'''
+```
 
 ### Screenshots
 ![project1-5-1](./screenshots/15-Project1-4-1_health_predict.png)
