@@ -78,7 +78,7 @@ It simulates a real enterprise internal AI inference server.
 ### GPU API Response
 
 The API successfully detects the GPU inside the Docker container.
-```JSON 
+``` JSON 
 {
   "cuda_available": true,
   "device_count": 1,
@@ -99,7 +99,7 @@ Implemented a real AI inference API using FastAPI + Hugging Face Transformers.
 
 ### Example Request
 
-```bash
+``` Bash
 curl -X POST http://localhost:8000/predict \
   -H "Content-Type: application/json" \
   -d '{"text":"I really like this project."}'
@@ -107,7 +107,7 @@ curl -X POST http://localhost:8000/predict \
 
  ### Example Response (CPU fallback mode)
 
- ```JSON
+ ``` JSON
 {
   "label": "POSITIVE",
   "score": 0.999,
@@ -127,7 +127,7 @@ Disabling PyTorch because PyTorch >= 2.4 is required but found 2.3.1
 ### Solution
 
 Updated Docker base image:
-```dockerfile
+``` dockerfile
 FROM pytorch/pytorch:2.6.0-cuda12.6-cudnn9-runtime
 ```
 
@@ -184,7 +184,7 @@ The inference API was refactored to support more production-oriented features.
 
 ### Runtime Configuration
 The model can be changed without modifying source code.
-```yaml
+``` yaml
 environment:
   - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
   - APP_INFERENCE_DEVICE=cpu
@@ -192,7 +192,7 @@ environment:
 ```
 
 ### Single Prediction Response
-```JSON
+``` JSON
 {
   "result": {
     "text": "I really like this project.",
@@ -206,14 +206,14 @@ environment:
 
 
 ### Batch Prediction Example
-```Bash
+``` Bash
 curl -X POST http://localhost:8000/predict/batch \
   -H "Content-Type: application/json" \
   -d '{"texts":["I really like this project.","This system is disappointing.","The API works well."]}'
 ```
 
 ### Batch Prediction Response
-```JSON
+``` JSON
 {
   "results": [
     {
@@ -250,7 +250,7 @@ logging_config.py  - Logging setup
 
 ### Runtime Configuration
 The model can be switched without modifying source code.
-```YAML
+``` YAML
 environment:
   - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
   - APP_INFERENCE_DEVICE=cpu
@@ -273,7 +273,7 @@ The API service was exposed through Nginx reverse proxy.
 
 ### Architecture
 
-```text
+``` text
 
 Client
 ↓
@@ -289,7 +289,7 @@ FastAPI (Port 8000)
   - Production-style service exposure
 
 ### Example
-```Bash
+``` Bash
 
 curl http://localhost/health
 
