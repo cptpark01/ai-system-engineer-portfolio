@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI System Engineer Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+      color: #222;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin-top: 40px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 8px;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      background: #fafafa;
+    }
+    code {
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .tag {
+      display: inline-block;
+      background: #eaeef2;
+      padding: 4px 8px;
+      border-radius: 6px;
+      margin: 3px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI System Engineer Portfolio</h1>
+  <p>
+    Production-ready AI infrastructure portfolio focused on GPU-based AI serving,
+    MLOps, air-gapped deployment, and reliability engineering.
+  </p>
+
+  <h2>Projects</h2>
+
+  <div class="card">
+    <h3>Project 1 - GPU-Based AI Service Infrastructure (On-Prem)</h3>
+    <p>
+      Built an on-premise AI inference platform using Ubuntu, Docker,
+      NVIDIA GPU runtime, FastAPI, Hugging Face Transformers, and Nginx reverse proxy.
+    </p>
+    <p>
+      Key features:
+    </p>
+    <ul>
+      <li>GPU-enabled Docker runtime</li>
+      <li>FastAPI inference API</li>
+      <li>Single and batch prediction endpoints</li>
+      <li>Request logging and error handling</li>
+      <li>Nginx reverse proxy</li>
+      <li>CPU fallback mode for runtime stability</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Project 2 - MLOps End-to-End Pipeline</h3>
+    <p>Planned: MLflow, MinIO, model registry, CI/CD, and GitOps deployment.</p>
+  </div>
+
+  <div class="card">
+    <h3>Project 3 - Air-Gapped AI System</h3>
+    <p>Planned: Offline model deployment, private registry, and secure package transfer.</p>
+  </div>
+
+  <div class="card">
+    <h3>Project 4 - Reliability Engineering</h3>
+    <p>Planned: Monitoring, alerting, incident response, and recovery scenarios.</p>
+  </div>
+
+  <h2>Tech Stack</h2>
+  <p>
+    <span class="tag">Ubuntu</span>
+    <span class="tag">Docker</span>
+    <span class="tag">NVIDIA Container Toolkit</span>
+    <span class="tag">FastAPI</span>
+    <span class="tag">PyTorch</span>
+    <span class="tag">Hugging Face</span>
+    <span class="tag">Nginx</span>
+    <span class="tag">MLflow</span>
+    <span class="tag">Grafana</span>
+    <span class="tag">Kubernetes</span>
+  </p>
+
+  <h2>Architecture</h2>
+  <pre>
+Client
+  ↓
+Nginx Reverse Proxy
+  ↓
+FastAPI Inference API
+  ↓
+PyTorch / Transformers Runtime
+  ↓
+NVIDIA GPU Runtime
+  </pre>
+
+  <h2>Repository</h2>
+  <p>
+    GitHub Repository:
+    <a href="https://github.com/cptpark01/ai-system-engineer-portfolio" target="_blank">
+      ai-system-engineer-portfolio
+    </a>
+  </p>
+
+  <h2>Demo API</h2>
+  <p>
+    The API is currently deployed on a local Ubuntu server.
+    For security reasons, the public demo endpoint is not exposed yet.
+    Screenshots and execution logs are provided in the GitHub repository.
+  </p>
+</body>
+</html>
