@@ -664,3 +664,14 @@ Health check
 
 ### Result
 The MLOps pipeline now supports a repeatable retraining and deployment workflow.
+
+## Final Architecture Documentation
+
+Detailed architecture documentation is available at:
+
+```text
+docs/architecture.md
+```
+
+### Screenshots
+![Project2-7](./screenshots/13-Project2-7-1_Final_Architecture_Documentation.png)
