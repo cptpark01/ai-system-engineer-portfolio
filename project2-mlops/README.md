@@ -480,3 +480,44 @@ Screenshots
     - Production-sytle API exposure
     - Debugging container startup failures
     - Registry dependency handling
+
+## Step 6 - CI/CD Preparation
+
+Added deployment automation script and GitHub Actions CI workflow.
+
+### Local Deployment Script
+
+```bash
+./scripts/deploy.sh
+```
+
+The script performs:
+    - Pull latest source code
+    - Rebuild Docker containers
+    - Restart MLOps services
+    - Run health check
+
+### GitHub Actions CI
+Worklflow:
+```
+.github/workflows/project2-ci.yml
+```
+
+The workflow validates:
+    - Serving API Docker image build
+    - Docker Compose configuration
+
+### CI/CD Flow
+```
+Developer
+ ↓
+Git Push
+ ↓
+GitHub Actions CI
+ ↓
+Docker Build Validation
+ ↓
+Docker Compose Validation
+ ↓
+Local Deploy Script
+```
