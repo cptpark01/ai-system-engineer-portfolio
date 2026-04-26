@@ -52,7 +52,7 @@ Implemented MLflow tracking server and MinIO object storage.
 | Mlflow UI | 5000 | Experiment Tracking UI |
 
 ### Docker Compose
-``` YAML
+```YAML
 services:
   minio:
     image: minio/minio
@@ -117,7 +117,7 @@ Iris Dataset
     - f1_score
 
 ### Example Training Command
-``` Bash
+```Bash
 python src/train.py
 ```
 
@@ -145,7 +145,7 @@ Cause:
 MLflow client version was newer than server version.
 
 Solution:
-``` Bash
+```Bash
 pip install mlflow==2.12.1
 ```
 
@@ -177,3 +177,87 @@ or recreate ```.venv```.
     - Model artifact management
     - Model Registry workflow
     - Environment/version troubleshooting
+
+
+ ## Step 3 - Model Serving API
+
+Deployed a registered MLflow model as a production-style FastAPI inference API.
+
+The serving API loads the model directly from MLflow Model Registry and downloads artifacts from MinIO object storage.
+
+---
+
+### Architecture
+
+```text
+Client
+ ↓
+FastAPI
+ ↓
+MLflow Model Registry
+ ↓
+MinIO Artifact Storage
+ ↓
+Loaded Model
+```
+
+### API Endpoints
+| Method | Endpoint | Description |
+|----------|------|------------|
+| GET | /health | Health check |
+| POST | /predict | Inference API |
+
+### Example Request
+```Bash
+curl -X POST http://localhost:8001/predict \
+-H "Content-Type: application/json" \
+-d '{"features":[5.1,3.5,1.4,0.2]}'
+```
+
+### Example Response
+```JSON
+{
+  "prediction": 0
+}
+```
+
+### Implementation
+The serving API performs:
+    - Connect to MLflow Tracking Server
+    - Load latest registered model
+    - Access MinIO artifact storage
+    - Run infrerence via FastAPI endpoint
+
+### Key Environment Variables
+```python
+os.environ["AWS_ACCESS_KEY_ID"] = "minio"
+os.environ["AWS_SECRET_ACCESS_KEY"] = "miniopassword"
+os.environ["MLFLOW_S3_ENDPOINT_URL"] = "http://localhost:9000"
+```
+
+These are required to access model artifiacts stored in MinIO.
+
+### Troubleshooting
+
+### Issue - NoCredentialsError
+Problem:
+```
+botocore.exceptions.NoCredentialsError: Unable to locate credentials
+```
+
+Cause:
+Serving API could not access MinIO artifacts.
+
+Solution:
+Set MinIO credentials in ```serving/app.py```.
+
+### Screenshots
+![Project2-2-1](./screenshots/06-Project2-2-1_Health_check.png)
+![Project2-2-2](./screenshots/06-Project2-2-2_prediction_API.png)
+
+### Key Learning
+    - Model Registry based deployment
+    - Artifact retrieval from object storage
+    - FastAPI model serving
+    - Environment variable based credential handling
+    - Production-style model deployment
