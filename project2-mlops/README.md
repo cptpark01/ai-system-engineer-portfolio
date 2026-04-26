@@ -253,7 +253,7 @@ Set MinIO credentials in ```serving/app.py```.
 
 ### Screenshots
 ![Project2-2-1](./screenshots/06-Project2-2-1_Health_check.png)
-![Project2-2-2](./screenshots/06-Project2-2-2_prediction_API.png)
+![Project2-2-2](./screenshots/07-Project2-2-2_prediction_API.png)
 
 ### Key Learning
     - Model Registry based deployment
@@ -261,3 +261,120 @@ Set MinIO credentials in ```serving/app.py```.
     - FastAPI model serving
     - Environment variable based credential handling
     - Production-style model deployment
+
+
+
+## Step 4 - Containerized Model Serving API
+
+Containerized the FastAPI serving API and deployed it with Docker Compose.
+
+The serving API now runs as an independent container and automatically loads the latest model from MLflow Model Registry.
+
+---
+
+### Architecture
+
+```text
+Client
+ ↓
+FastAPI Serving API Container
+ ↓
+MLflow Tracking / Registry
+ ↓
+MinIO Artifact Storage
+```
+
+### Services
+| Service | Port | Description |
+|----------|------|------------|
+| MinIO API | 9000 | Object Storage |
+| MinIO Console | 9001 | Web UI |
+| MLflow UI | 5000 | Tracking / Registry |
+| Serving API | 8001 | Inference API |
+
+### Dockerized Serving API
+The serving API was containerized using Docker.
+
+### Dockerfile
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY serving/requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir "setuptools<81" wheel \
+    && pip install --no-cache-dir -r requirements.txt
+
+COPY serving/app.py .
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8001"]
+```
+
+### Environment Variables
+```
+MLFLOW_TRACKING_URI=http://mlflow:5000
+MODEL_NAME=iris-random-forest
+MODEL_STAGE=latest
+AWS_ACCESS_KEY_ID=minio
+AWS_SECRET_ACCESS_KEY=miniopassword
+MLFLOW_S3_ENDPOINT_URL=http://minio:9000
+```
+
+### Example Request
+```Bash
+curl -X POST http://localhost:8001/predict \
+-H "Content-Type: application/json" \
+-d '{"features":[5.1,3.5,1.4,0.2]}'
+```
+
+### Example Response
+```JSON
+{
+  "prediction": 0,
+  "model_name": "iris-random-forest",
+  "model_stage": "latest"
+}
+```
+
+### Troubleshooting
+
+### Issue 1 - pkg_resources Missing in Container
+Problem:
+```
+ModuleNotFoundError: No module named 'pkg_resources'
+```
+
+Cause:
+Incompatible setuptools version.
+
+Solution:
+```dockerfile
+pip install "setuptools<81"
+```
+
+### Issue 2 - Regisitered Model Not Found
+Problem:
+```
+RESOURCE_DOES_NOT_EXIST:
+Registered Model with name=iris-random-forest not found
+```
+
+Cause:
+Model was not registered in MLflow Registry.
+
+Solution:
+```Bash
+python src/train.py
+docker restart mlops-serving-api
+```
+
+### Screenshots
+![Project2-3](./screenshots/08-Project2-3-1_Serving_API.png)
+
+### Key Learnings
+    - Dockerized ML model serving
+    - MLflow Registry integration
+    - MinIO artifact retrieval
+    - Service-to-service communication
+    - Container environment troubleshooting
