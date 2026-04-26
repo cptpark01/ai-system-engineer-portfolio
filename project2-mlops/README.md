@@ -378,3 +378,105 @@ docker restart mlops-serving-api
     - MinIO artifact retrieval
     - Service-to-service communication
     - Container environment troubleshooting
+
+## Step 5 - Nginx Reverse Proxy
+
+Added Nginx reverse proxy in front of the containerized serving API.
+
+This provides a production-style service architecture by hiding the internal API port.
+
+---
+
+### Architecture
+
+```text
+Client
+ ↓
+Nginx Reverse Proxy (Port 8080)
+ ↓
+Serving API Container (Port 8001)
+ ↓
+MLflow Tracking / Registry
+ ↓
+MinIO Artifact Storage
+```
+
+### Services
+| Service | Port | Description |
+|----------|------|------------|
+| MinIO API | 9000 | Object Storage |
+| MinIO Console | 9001 | Web UI |
+| MLflow UI | 5000 | Tracking / Registry |
+| Serving API | 8001 | Inference API |
+| Nginx Proxy | 8080 | External Service Endpoint |
+
+### Nginx Configuration
+
+```Nginx
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://serving-api:8001;
+
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+```
+
+### Example Request
+```Bash
+curl http://localhost:8080/health
+```
+
+### Example Response
+```JSON
+{
+  "status": "ok",
+  "model_name": "iris-random-forest",
+  "model_stage": "latest"
+}
+```
+
+### Prediction Request
+```Bash
+curl -X POST http://localhost:8080/predict \
+-H "Content-Type: application/json" \
+-d '{"features":[5.1,3.5,1.4,0.2]}'
+```
+
+### Troubleshooting
+### Issue - 502 Bad Gateway
+Problem:
+```
+502 Bad Gateway
+```
+
+Cause:
+Serving API failed to start because the registered model was not found.
+ 
+```
+RESOURCE_DOES_NOT_EXIST:
+Registered Model with name=iris-random-forest not found
+```
+
+Solution:
+```Bash
+python src/train.py
+docker restart mlops-serving-api
+```
+
+Screenshots
+![Project2-4-1](./screenshots/09-Project2-4-1_Nginx_health_Prediction.png)
+
+### Key Learning
+    - Reverse proxy architecture
+    - Service-to-service communication
+    - Production-sytle API exposure
+    - Debugging container startup failures
+    - Registry dependency handling
