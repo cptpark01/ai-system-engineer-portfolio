@@ -274,11 +274,13 @@ The API service was exposed through Nginx reverse proxy.
 ### Architecture
 
 '''text
+
 Client
 ↓
 Nginx (Port 80)
 ↓
 FastAPI (Port 8000)
+
 '''
 
 ### Features
@@ -288,7 +290,9 @@ FastAPI (Port 8000)
 
 ### Example
 '''Bash
+
 curl http://localhost/health
+
 '''
 
 ### Screenshots
