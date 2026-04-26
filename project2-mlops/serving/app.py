@@ -5,6 +5,7 @@ import pandas as pd
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+from prometheus_fastapi_instrumentator import Instrumentator
 
 
 MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000")
@@ -22,6 +23,8 @@ app = FastAPI(
     description="FastAPI serving API that loads a registered MLflow model from MinIO artifact storage.",
     version="1.0.0",
 )
+
+Instrumentator().instrument(app).expose(app)
 
 model = None
 

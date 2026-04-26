@@ -521,3 +521,75 @@ Docker Compose Validation
  ↓
 Local Deploy Script
 ```
+
+## Step 7 - Monitoring / Observability
+
+Added monitoring for the containerized model serving API using Prometheus and Grafana.
+
+---
+
+### Architecture
+
+```text
+Client
+ ↓
+Nginx Reverse Proxy
+ ↓
+Serving API
+ ↓
+/metrics
+ ↓
+Prometheus
+ ↓
+Grafana Dashboard
+```
+
+### Components
+| Component | Port | Description |
+|----------|------|------------|
+| Serving API | 8001 | Internal Inference API |
+| Nginx | 8080 | External API Endpoint |
+| Prometheuw | 9092 | Metrics collection |
+| Grafana | 3001 | Dashboard visualization |
+
+### Metrics Endpoint
+```
+/metrics
+```
+
+Example:
+```Bash
+curl http://localhost:8080/metrics
+```
+
+### Prometheus Query Examples
+```
+http_requests_total
+```
+
+```
+http_request_duration_seconds_count
+```
+
+```
+http_requests_total{status="500"}
+```
+
+### Grafana Dashboard Panels
+    - Request Count
+    - Request Duration
+    - Error Count
+
+### Screenshots
+
+### Prometheus Metrics
+![Project2-5-1](./screenshots/10-Project2-5-1_prometheus.png)
+
+### Grafana Dashboard
+![Project2-5-2](./screenshots/11-Project2-5-2_grafana_dashboard.png)
+
+### Key Learning
+    - Exposed FastAPI metrics endpoint
+    - Collected model serving metrics with Prometheus
+    - Visualized API health and request patterns with Grafana
+    - Extended MLOps pipeline from deployment to observability
