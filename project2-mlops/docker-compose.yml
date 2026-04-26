@@ -1,0 +1,75 @@
+services:
+  minio:
+    image: minio/minio
+    container_name: mlops-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: miniopassword
+    volumes:
+      - ./minio:/data
+    restart: unless-stopped
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.12.1
+    container_name: mlops-mlflow
+    ports:
+      - "5000:5000"
+    environment:
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: miniopassword
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+    volumes:
+      - ./mlflow:/mlflow
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --default-artifact-root s3://mlflow/
+      --host 0.0.0.0
+    depends_on:
+      - minio
+    restart: unless-stopped
+
+  serving-api:
+    build:
+      context: .
+      dockerfile: serving/Dockerfile
+    container_name: mlops-serving-api
+    ports:
+      - "8001:8001"
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MODEL_NAME: iris-random-forest
+      MODEL_STAGE: latest
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: miniopassword
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+    depends_on:
+      - mlflow
+      - minio
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:latest
+    container_name: mlops-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - serving-api
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus
+    container_name: mlops-prometheus
+    ports:
+      - "9092:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - serving-api
+    restart: unless-stopped    
