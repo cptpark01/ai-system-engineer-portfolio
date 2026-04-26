@@ -629,3 +629,38 @@ mlflow server \
     - Model Registry data is preserved
     - Serving API can reload the registered model after container restart
     - host 0.0.0.0
+
+## Step 9 - Automated Retraining and Deployment Script
+
+Added an automated retraining and deployment script.
+
+### Workflow
+
+```text
+Run script
+ ↓
+Train model
+ ↓
+Log experiment to MLflow
+ ↓
+Register new model version
+ ↓
+Restart serving API
+ ↓
+Health check
+```
+
+### Script
+```Bash
+./scripts/retrain_and_deploy.sh
+```
+
+### Key Features
+    - Automated model retraining
+    - MLflow experiment logging
+    - Model Registry version update
+    - Serving API restart
+    - Post-deployment health check
+
+### Result
+The MLOps pipeline now supports a repeatable retraining and deployment workflow.
