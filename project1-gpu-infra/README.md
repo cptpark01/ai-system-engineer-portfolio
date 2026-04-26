@@ -267,6 +267,30 @@ Screenshot Evidence
 ![project1-4-3](./screenshots/13-Project1-4-3_batch_inference.png)
 ![project1-4-4](./screenshots/14-Project1-4-4_docker_logs.png)
 
+## Step 4 - Nginx Reverse Proxy
 
+The API service was exposed through Nginx reverse proxy.
+
+### Architecture
+
+'''text
+Client
+↓
+Nginx (Port 80)
+↓
+FastAPI (Port 8000)
+
+### Features
+  - Hide internal application port
+  - Route external traffic through Nginx
+  - Production-style service exposure
+
+### Example
+'''Bash
+curl http://localhost/health
+'''
+
+### Screenshots
+![project1-5-1](./screenshots/15-Project1-4-1_health_predict.png)
  
   
