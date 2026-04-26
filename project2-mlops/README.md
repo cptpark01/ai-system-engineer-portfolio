@@ -593,3 +593,39 @@ http_requests_total{status="500"}
     - Collected model serving metrics with Prometheus
     - Visualized API health and request patterns with Grafana
     - Extended MLOps pipeline from deployment to observability
+
+## Step 8 - MLflow Backend Store Persistence
+
+Configured persistent MLflow backend store to prevent registered models from being lost after container restart.
+
+### Problem
+
+Previously, the MLflow backend database was stored inside the container.  
+After running `docker compose down` and restarting the stack, the registered model disappeared.
+
+This caused the serving API to fail with:
+
+```text
+RESOURCE_DOES_NOT_EXIST:
+Registered Model with name=iris-random-forest not found
+```
+
+### Solution
+Mounted a persistent volume for MLflow backend database.
+```YAML
+volumes:
+  - ./mlflow:/mlflow
+```
+
+```Bash
+mlflow server \
+  --backend-store-uri sqlite:////mlflow/mlflow.db \
+  --default-artifact-root s3://mlflow/ \
+  --host 0.0.0.0
+```
+
+### Result
+    - MLflow experiments are preserved
+    - Model Registry data is preserved
+    - Serving API can reload the registered model after container restart
+    - host 0.0.0.0

@@ -22,9 +22,11 @@ services:
       AWS_ACCESS_KEY_ID: minio
       AWS_SECRET_ACCESS_KEY: miniopassword
       MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+    volumes:
+      - ./mlflow:/mlflow
     command: >
       mlflow server
-      --backend-store-uri sqlite:///mlflow.db
+      --backend-store-uri sqlite:////mlflow/mlflow.db
       --default-artifact-root s3://mlflow/
       --host 0.0.0.0
     depends_on:
