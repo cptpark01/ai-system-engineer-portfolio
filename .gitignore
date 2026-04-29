@@ -2,18 +2,27 @@
 .venv/
 __pycache__/
 *.pyc
-.env
 
-# Model cache / large model files
-project1-gpu-infra/models/cache/
-**/models/cache/
-**/.cache/
+# Docker artifacts
+dist/
+*.tar
+
+# MLflow / MinIO
+mlflow/
+minio/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Large model files
+project3-airgapped/models/
+project3-airgapped/dist/
+*.safetensors
+*.bin
 *.pt
 *.pth
-*.bin
-*.safetensors
-
-# MinIO runtime data
-project2-mlops/minio/.minio.sys/
-project2-mlops/minio/data/
-**/.minio.sys/
+*.tar

@@ -148,3 +148,46 @@ The API performs inference using only local model files.
 
 ![project3-3-1](./screenshots/02-project3-3-1.png)
 ![project3-3-2](./screenshots/03-project3-3-2.png)
+
+## Step 4 - Docker Image Packaging for Air-Gapped Deployment
+
+Packaged the offline AI inference API into a Docker image.
+
+### Workflow
+
+```text
+Build Docker Image
+ ↓
+Save Image as TAR
+ ↓
+Transfer TAR to Air-Gapped Server
+ ↓
+Load Docker Image
+ ↓
+Run Offline AI API
+```
+
+### Build Image
+```Bash
+docker build -t airgapped-ai-api:1.0 .
+```
+
+### Save Image
+```Bash
+docker save -o dist/airgapped-ai-api-1.0.tar airgapped-ai-api:1.0
+```
+
+### Load Image
+```Bash
+docker load -i dist/airgapped-ai-api-1.0.tar
+```
+
+### Run Container
+```Bash
+docker run -d --name airgapped-ai-api -p 8002:8002 airgapped-ai-api:1.0
+```
+
+### Result
+The AI inference API can be deployed without internet access using a pre-packaged Docker image
+
+![project3-4-1](./screenshots/04-project3-4-1.png)
