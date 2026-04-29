@@ -191,3 +191,34 @@ docker run -d --name airgapped-ai-api -p 8002:8002 airgapped-ai-api:1.0
 The AI inference API can be deployed without internet access using a pre-packaged Docker image
 
 ![project3-4-1](./screenshots/04-project3-4-1.png)
+
+## Step 5 - Air-Gapped Deployment Guide
+
+Created a deployment guide for operating the AI system in a fully isolated environment.
+
+### Workflow
+
+```text
+Build Image
+ ↓
+Export TAR
+ ↓
+Transfer Securely
+ ↓
+Load Image
+ ↓
+Run API
+```
+
+Detailed guide:
+```
+docs/deployment-guide.md
+```
+
+This simulates real-world deployement in:
+   - Military networks
+   - Government secure zones
+   - Financial restricted environments
+
+### Screenshots
+![project3-5-1](./screenshots/05-project3-5-1.png)
