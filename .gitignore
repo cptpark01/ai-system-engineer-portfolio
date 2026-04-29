@@ -1,4 +1,30 @@
+# Python
 .venv/
-**/.venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Docker / build artifacts
+dist/
+*.tar
+
+# Large model files
+project3-airgapped/models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# MLflow / MinIO data
+mlflow/
+minio/
+project2-mlops/mlflow/
+project2-mlops/minio/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
