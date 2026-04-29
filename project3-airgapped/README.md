@@ -124,3 +124,27 @@ Confirmed:
 Step 1: Model download and local packaging
 Step 2: Offline model loading test
 ```
+
+## Step 3 - Offline FastAPI Inference API
+
+Built a FastAPI inference API that runs entirely offline.
+
+### Endpoints
+
+GET /health
+
+POST /predict
+
+### Example
+
+```bash
+curl -X POST http://localhost:8002/predict \
+-H "Content-Type: application/json" \
+-d '{"text":"This air-gapped AI system is excellent."}'
+```
+
+### Result
+The API performs inference using only local model files.
+
+![project3-3-1](./screenshots/02-project3-3-1.png)
+![project3-3-2](./screenshots/03-project3-3-2.png)
