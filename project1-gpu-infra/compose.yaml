@@ -10,7 +10,7 @@ services:
       - HF_HOME=/models/cache
       - TRANSFORMERS_CACHE=/models/cache
       - APP_MODEL_NAME=distilbert-base-uncased-finetuned-sst-2-english
-      - APP_INFERENCE_DEVICE=cpu
+      - APP_INFERENCE_DEVICE=cuda
       - APP_MAX_BATCH_SIZE=16
     volumes:
       - ./models:/models
@@ -27,7 +27,7 @@ services:
     image: nginx:latest
     container_name: ai-nginx
     ports:
-      - "80:80"
+      - "8081:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:

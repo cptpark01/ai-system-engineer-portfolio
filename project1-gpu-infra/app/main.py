@@ -16,6 +16,7 @@ from schemas import (
     BatchPredictResponse,
     HealthResponse,
     GPUResponse,
+    GPUTestResponse,
 )
 
 setup_logging()
@@ -61,7 +62,9 @@ async def request_logging_middleware(request: Request, call_next):
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.exception(f"Unhandled error on {request.method} {request.url.path}: {exc}")
-
+{
+  "inference_device": "cuda"
+}
     return JSONResponse(
         status_code=500,
         content={
@@ -125,4 +128,62 @@ def predict_batch(request: BatchPredictRequest):
         "model_name": model_service.model_name,
         "device": model_service.runtime_device,
         "batch_size": len(results),
+    }
+
+@app.get("/gpu-test", response_model=GPUTestResponse)
+def gpu_test():
+    cuda_available = torch.cuda.is_available()
+
+    if not cuda_available:
+        return {
+            "cuda_available": False,
+            "device_name": None,
+            "tensor_device": "cpu",
+            "matrix_size": 0,
+            "result_sum": 0.0,
+            "status": "CUDA is not available",
+        }
+
+    device = torch.device("cuda")
+
+    matrix_size = 1024
+
+    a = torch.randn(matrix_size, matrix_size, device=device)
+    b = torch.randn(matrix_size, matrix_size, device=device)
+    c = torch.matmul(a, b)
+
+    torch.cuda.synchronize()
+
+    return {
+        "cuda_available": True,
+        "device_name": torch.cuda.get_device_name(0),
+        "tensor_device": str(c.device),
+        "matrix_size": matrix_size,
+        "result_sum": float(c.sum().item()),
+        "status": "CUDA tensor operation succeeded",
+    }
+
+@app.post("/benchmark")
+def benchmark(request: PredictRequest, repeat: int = 20):
+    text = request.text.strip()
+
+    if not text:
+        raise HTTPException(status_code=400, detail="Text must not be empty.")
+
+    latencies = []
+
+    for _ in range(repeat):
+        start = time.perf_counter()
+        result = model_service.predict_one(text)
+        end = time.perf_counter()
+        latencies.append((end - start) * 1000)
+
+    return {
+        "model_name": model_service.model_name,
+        "device": model_service.runtime_device,
+        "repeat": repeat,
+        "avg_latency_ms": round(sum(latencies) / len(latencies), 2),
+        "min_latency_ms": round(min(latencies), 2),
+        "max_latency_ms": round(max(latencies), 2),
+        "last_result": result,
     }

@@ -339,4 +339,58 @@ Implemented real-time monitoring dashboard using Grafana.
 
 ![grafana](./screenshots/18-Project1-6-1_Monitoring_Dashboard.png)
 
-  
+## GPU Runtime Validation
+
+The system successfully detects the NVIDIA RTX 5070 Ti GPU inside the container.
+
+```json
+{
+  "cuda_available": true,
+  "device_name": "NVIDIA GeForce RTX 5070 Ti"
+}  
+```
+
+However, CUDA tensor execution fails due to a kernel compatibility issue with the current PyTorch runtime.
+```
+RuntimeError: CUDA error: no kernel image is available for execution on the device
+```
+
+### Root Cause
+The RTX 5070 Ti is a newer GPU architecture that is not fully supported by the current stable PyTorch CUDA runtime.
+
+### Design Decision
+  - The ```/predict``` endpoint uses CPU fallback for stability
+  - GPU availability is validated via ```/gpu```
+  - CUDA execution attempts are exposed via ```/gpu-test```
+
+### Result
+The system demonstrates:
+  - GPU detection capability
+  - Runtime compatibility validation
+  - Graceful fallback strategy
+
+## GPU Inference Validation (RTX 5070 Ti)
+
+Initial attempts using stable PyTorch failed due to CUDA kernel compatibility issues.
+
+```text
+CUDA error: no kernel image is available for execution on the device
+```
+
+To resolve this, the system was upgraded to:
+  - CUDA 12.8
+  - PyTorch Nightly build
+
+This enabled successful GPU inference.
+
+### Result
+```JSON
+{
+  "inference_device": "cuda"
+}
+```
+
+The ```/predict``` endpoint now performs real GPU-based inference.
+
+### Screenshot
+![project1-7-1](./screenshots/19-Project1-7-1.png)

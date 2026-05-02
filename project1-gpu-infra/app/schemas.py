@@ -39,3 +39,11 @@ class GPUResponse(BaseModel):
     device_name: str | None
     torch_device: str
     inference_device: str
+
+class GPUTestResponse(BaseModel):
+    cuda_available: bool
+    device_name: str | None
+    tensor_device: str
+    matrix_size: int
+    result_sum: float
+    status: str
