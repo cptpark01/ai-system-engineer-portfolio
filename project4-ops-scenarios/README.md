@@ -46,7 +46,7 @@ docker compose up -d --build
 curl http://localhost:8081/health
 ```
 
-![project4-1-2](./screenshots/01-project4-1-2.png)
+![project4-1-2](./screenshots/02-project4-1-2.png)
 
 ### Lessons Learned
 Application-level errors can propagate to infrastructure-level failures (502).
