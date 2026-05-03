@@ -103,3 +103,52 @@ docker kill ai-api
 	- Health check validation
 
 
+## Scenario 4 - Rate Limiting / Traffic Control
+
+### Summary
+Simulated excessive traffic and protected the backend API using Nginx rate limiting.
+
+### Reproduction
+
+```bash
+ab -n 200 -c 50 http://localhost:8081/health
+```
+
+### Root Cause
+Too many concurrent requests were sent to the API endpoint.
+
+### Resolution
+Applied Nginx rate limiting.
+
+```Nginx
+limit_req_zone $binary_remote_addr zone=api_limit:10m rate=5r/s;
+limit_req_status 429;
+
+location / {
+    limit_req zone=api_limit burst=10 nodelay;
+    proxy_pass http://ai-api:8000;
+}
+```
+
+### Verification
+```Bash
+for i in {1..50}; do
+  curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8081/health
+done
+```
+
+Expected result:
+	- Normal requests return 200
+	- Excessive requests return 429
+
+![project4-4-1](./screenshots/05-project4-4-1.png)
+
+
+### Preventive Actions
+	- Keep rate limiting at reverse proxy layer
+	- Add Grafana alert for 429 spikes
+	- Tune rate and burst values based on traffic profile
+	- Add autoscaling in Kubernetes for long-term scalability
+
+### Lessons Learned
+Rate limiting protects backend services from traffic spikes and prevents overload.
