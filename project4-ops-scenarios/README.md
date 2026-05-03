@@ -50,3 +50,33 @@ curl http://localhost:8081/health
 
 ### Lessons Learned
 Application-level errors can propagate to infrastructure-level failures (502).
+
+
+
+## Scenario 2 - High Latency Under Load
+
+### Summary
+Simulated high traffic load against the AI API and observed latency increase.
+
+### Reproduction
+
+```bash
+ab -n 1000 -c 50 http://localhost:8081/health
+```
+
+### Detection
+	- Grafana request rate increased
+	- Grafana latency panel increased
+	- Docker logs showed high request volume
+	- ```ab``` reported increased time per request
+
+![project4-2-1](./screenshots/03-project4-2-1.png)
+
+### Resolution
+The service recovered after the load test stopped.
+
+### Preventive Actions
+	- Add rate limiting
+	- Add horizontal scaling
+	- Add resource limits
+	- Add latency-based alerting
