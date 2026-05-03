@@ -152,3 +152,43 @@ Expected result:
 
 ### Lessons Learned
 Rate limiting protects backend services from traffic spikes and prevents overload.
+
+
+## Scenario 5 - Nginx 502 Bad Gateway
+
+### Summary
+Simulated backend API failure and observed 502 error from Nginx.
+
+### Reproduction
+
+```bash
+docker stop ai-api
+```
+
+### Detection
+	- Nginx returned 502
+	- Docker showed API container stopped
+	- Logs indicated upstream connection failure
+
+![project4-5-1](./screenshots/06-project4-5-1.png)
+
+
+### Root Cause
+Backend API container was not running.
+
+### Resolution
+```Bash
+docker start ai-api
+```
+
+### Verification
+```Bash
+curl http://localhost:8081/health
+```
+
+![project4-5-2](./screenshots/07-project4-5-2.png)
+
+### Lessons Learned
+Reverse proxy depends entirely on upstream availability.
+Infrastructure-level errors can be caused by application-level failures.
+
