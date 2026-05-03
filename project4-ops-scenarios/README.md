@@ -80,3 +80,26 @@ The service recovered after the load test stopped.
 	- Add horizontal scaling
 	- Add resource limits
 	- Add latency-based alerting
+
+
+## Scenario 3 - Auto Recovery
+
+### Summary
+Simulated container crash and verified automatic restart.
+
+### Reproduction
+
+```bash
+docker kill ai-api
+```
+
+### Result
+	- Container restarted automatically
+	- Temporary 502 observed
+	- Service recovered without manual intervention
+
+### Key Feature
+	- Docker restart policy
+	- Health check validation
+
+
